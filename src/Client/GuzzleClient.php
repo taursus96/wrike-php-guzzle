@@ -24,6 +24,14 @@ use Zibios\WrikePhpLibrary\Validator\AccessTokenValidator;
  */
 class GuzzleClient extends BaseClient implements ClientInterface
 {
+    protected $host;
+
+    public function setHost(string $host): GuzzleClient
+    {
+        $this->host = $host;
+        return $this;
+    }
+
     /**
      * @return string
      */
@@ -118,7 +126,7 @@ class GuzzleClient extends BaseClient implements ClientInterface
         AccessTokenValidator::assertIsValid($accessToken);
         $options = [];
         $options['headers']['Authorization'] = sprintf('Bearer %s', $accessToken);
-        $options['base_uri'] = Api::BASE_URI;
+        $options['base_uri'] = $this->host;
 
         return $options;
     }
